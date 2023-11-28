@@ -2,41 +2,30 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Chatbot.css';
 
-const Chatbot = () => {
+
+
+const Chatbot = ({userId}) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
 
-const chatWithGPT3 = async (userInput) => {
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer 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_fake`
+
+  const chatWithGPT = async (userInput) => {
+
+    const endopoint = "https://voz46p1nbh.execute-api.eu-south-1.amazonaws.com/fase1"
+    const data = {
+      user: userId,
+      message: userInput
     };
 
-    const data2 = {
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "user",
-          content: userInput
-        }
-      ]
-      }; 
-
-const endopoint = "https://voz46p1nbh.execute-api.eu-south-1.amazonaws.com/fase1"
-const data = {
-  message: userInput
-  };
-
-try {
-      console.log(userInput);
+    try {
       const response = await axios.post(endopoint, JSON.stringify(data));
       console.log(response);
-      //return response.data.choices[0].message.content;
     } catch (error) {
       console.error('Error communicating with the API:', error.message);
       return '';
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -44,11 +33,12 @@ try {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     const aiMessage = { text: '...', user: false };
     setMessages((prevMessages) => [...prevMessages, aiMessage]);
-    const response = await chatWithGPT3(input);
+    const response = await chatWithGPT(input);
     const newAiMessage = { text: response, user: false };
     setMessages((prevMessages) => [...prevMessages.slice(0, -1), newAiMessage]);
     setInput('');
   };
+
   return (
     <div className="chatbot-container">
       <div className="chatbot-messages">
@@ -73,4 +63,5 @@ try {
     </div>
   );
 };
+
 export default Chatbot;
