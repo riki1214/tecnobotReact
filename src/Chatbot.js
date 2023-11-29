@@ -11,7 +11,7 @@ const Chatbot = ({userId}) => {
 
   const chatWithGPT = async (userInput) => {
 
-    const endopoint = "https://voz46p1nbh.execute-api.eu-south-1.amazonaws.com/fase1"
+    const endopoint = "https://zyewgrjvzd.execute-api.eu-south-1.amazonaws.com/fase1"
     const data = {
       user: userId,
       message: userInput
