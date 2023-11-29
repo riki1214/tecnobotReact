@@ -20,6 +20,7 @@ const Chatbot = ({userId}) => {
     try {
       const response = await axios.post(endopoint, JSON.stringify(data));
       console.log(response);
+      return JSON.parse(response.data.body);
     } catch (error) {
       console.error('Error communicating with the API:', error.message);
       return '';
